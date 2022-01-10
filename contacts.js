@@ -16,10 +16,19 @@ if (!fs.existsSync(dataPath)) {
     fs.writeFileSync(dataPath, '[]', 'utf-8');
 }
 
-const simpanContact = (nama, email, noHP) => {
-    const contact  = { nama, email, noHP };
+/* Menampilkan Data Contact dari json */
+const loadContact = () => {
     const fileBuffer = fs.readFileSync('data/contacts.json', 'utf8');
     const contacts = JSON.parse(fileBuffer);
+    return contacts;
+}
+
+const simpanContact = (nama, email, noHP) => {
+    const contact  = { nama, email, noHP };
+    /* const fileBuffer = fs.readFileSync('data/contacts.json', 'utf8');
+    const contacts = JSON.parse(fileBuffer); */
+    const contacts = loadContact();
+
 
         /* Cek Duplikat Nama */
         const duplikat = contacts.find((contact) => contact.nama === nama);
@@ -54,8 +63,23 @@ const simpanContact = (nama, email, noHP) => {
             // rl.close(); 
 };
 
-module.exports = { simpanContact };
+/* Menapilkan Lisst */
+const listContact = () => {
+    const contacts = loadContact();
+    console.log(chalk.cyan.inverse.bold('Daftar Contact : '));
+    contacts.forEach((contact, i) => {
+        console.log(`${i + 1}. ${contact.nama} - ${contact.noHp}`);
+    });
+};
 
+/* Menampilkan detail */
+const detailContact = (nama) => {
+    const contatcs = loadContact(); 
+};
+
+
+
+module.exports = { simpanContact, listContact, detailContact };
 
 
 
