@@ -54,17 +54,31 @@ yargs.command({
 });
 
 
+
+/* Menghapus Contact berdasarkan warna */
+yargs.command({
+    command: 'delete',
+    describe: 'Menghapus data contact berdasarkan nama',
+    builder: {
+        nama: {
+            describe: 'Nama lengkap',
+            demandOption: true,
+            type: 'string',
+        },
+    },
+    handler(argv) {
+        contacts.deleteContact(argv.nama);
+    },
+});
+
 yargs.parse(); 
-
-
-
 
 
 /* First command  */
 /* yargs.command(
     'add',
     'Menambahkan contact baru',
-     () => {},
+    () => {},
     (argv) => {
         console.log(argv.nama);
     }

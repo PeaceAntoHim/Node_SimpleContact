@@ -63,7 +63,7 @@ const simpanContact = (nama, email, noHP) => {
             // rl.close(); 
 };
 
-/* Menapilkan Lisst */
+/* Menapilkan List */
 const listContact = () => {
     const contacts = loadContact();
     console.log(chalk.cyan.inverse.bold('Daftar Contact : '));
@@ -74,12 +74,46 @@ const listContact = () => {
 
 /* Menampilkan detail */
 const detailContact = (nama) => {
-    const contatcs = loadContact(); 
+    const contacts = loadContact();
+    
+    
+    const contact = contacts.find(
+        (contact) => contact.nama.toLowerCase() === nama.toLowerCase()
+    );
+
+    if(!contact) {
+        console.log(chalk.red.inverse.bold(`${nama} tidak ditemukan`)); 
+        return false
+    }
+    
+    console.log(chalk.cyan.inverse.bold(contact.nama));
+    console.log(contact.noHP);
+    if(contact.email) {
+        console.log(contact.email);
+    }
+
+};
+
+/* Algoritma delete data contact */
+
+const deleteContact = (nama) => {
+    const contacts = loadContact();
+    const newContacts = contacts.filter(
+        (contact) => contact.nama.toLowerCase() !== nama.toLowerCase()
+    );
+
+    if(contacts.length === newContacts.length) {
+        console.log(chalk.red.inverse.bold(`${nama} tidak ditemukan!`));
+        return false; 
+    }
+    fs.writeFileSync('data/contacts.json', JSON.stringify(newContacts));
+    console.log(
+        chalk.green.inverse.bold(`${nama} berhasil di hapus`)
+    );
 };
 
 
-
-module.exports = { simpanContact, listContact, detailContact };
+module.exports = { simpanContact, listContact, detailContact, deleteContact };
 
 
 
